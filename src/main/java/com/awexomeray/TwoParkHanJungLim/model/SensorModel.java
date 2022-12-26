@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.testMVC.model;
+package com.awexomeray.TwoParkHanJungLim.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
