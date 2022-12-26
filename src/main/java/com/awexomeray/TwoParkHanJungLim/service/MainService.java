@@ -27,6 +27,8 @@ public class MainService {
         String latestRecordDateTime;
         try {
             latestRecordDateTime = findLatestRecordDateTime(collectionName);
+            //공기질 데이터를 저장하는 Collection이 아닌 경우 예외처리
+            if(latestRecordDateTime == null) throw new ApiCustomExcption(ErrorCodes.NO_DATA_COLLECTION);
         } catch (NullPointerException e) {
             throw new ApiCustomExcption(ErrorCodes.NO_SEARCH_COLLECTION);
         }
