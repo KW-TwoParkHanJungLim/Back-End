@@ -24,7 +24,12 @@ public class MainService {
     public List<SensorInfoDto> getAirDataOfSensors(String collectionName) {
 
         //가장 최근에 기록된 데이터의 로그시간을 찾음
-        String latestRecordDateTime = findLatestRecordDateTime(collectionName);
+        String latestRecordDateTime;
+        try {
+            latestRecordDateTime = findLatestRecordDateTime(collectionName);
+        } catch (NullPointerException e) {
+            throw new ApiCustomExcption(ErrorCodes.NO_SEARCH_COLLECTION);
+        }
 
         //해당 날짜의 센서별 공기질 데이터를 가져옴
         List<AirDataModel> airDataModelList = getAirDataModelListAtDateTime(collectionName, latestRecordDateTime);
@@ -99,7 +104,7 @@ public class MainService {
     }
 
     //가장 최근에 기록된 데이터의 로그시간을 찾음
-    private String findLatestRecordDateTime(String collectionName) {
+    private String findLatestRecordDateTime(String collectionName) throws NullPointerException{
         AirDataModel lastRecordAirDataModel = mongoTemplate.findOne(
                 new Query().with(Sort.by(Sort.Direction.DESC, "logtime")).limit(1),
                 AirDataModel.class,
