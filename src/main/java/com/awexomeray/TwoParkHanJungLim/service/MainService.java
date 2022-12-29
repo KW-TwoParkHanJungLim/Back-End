@@ -54,7 +54,7 @@ public class MainService {
             String sensorName;
             try {
                 //센서이름을 찾음
-                sensorName = findSensorNameByS_id(airDataModel.getS_id());
+                sensorName = findSensorName(airDataModel.getS_id());
             } catch (NullPointerException e) {//센서이름이 존재하지 않는경우 예외처리
                 throw new ApiCustomException(ErrorCodes.NO_SEARCH_SENSOR_ID);
             }
@@ -72,11 +72,11 @@ public class MainService {
     }
 
     //센서이름을 찾음
-    private String findSensorNameByS_id(String s_id) throws NullPointerException {
+    private String findSensorName(String sensorId) throws NullPointerException {
         String sensorCollectionName = "axr-sensor";
 
         SensorModel sensorModel = mongoTemplate.findOne(
-                Query.query(Criteria.where("s_id").is(s_id)),
+                Query.query(Criteria.where("s_id").is(sensorId)),
                 SensorModel.class,
                 sensorCollectionName
         );
