@@ -62,7 +62,7 @@ public class MainService {
             //센서정보 종합(센서이름 + 공기질데이터)
             SensorInfoDto sensorInfoDto = SensorInfoDto.builder()
                     .sensorName(sensorName)
-                    .logtime(airDataModel.getLogtime())
+                    .logTime(airDataModel.getLogtime())
                     .airData(airDataDto).build();
 
             //센서정보 리스트에 추가

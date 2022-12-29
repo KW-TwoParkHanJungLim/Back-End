@@ -8,7 +8,7 @@ import lombok.Getter;
 public class SensorInfoDto {
     private String sensorName;
 
-    private String logtime;
+    private String logTime;
 
     private AirDataDto airData;
 }
