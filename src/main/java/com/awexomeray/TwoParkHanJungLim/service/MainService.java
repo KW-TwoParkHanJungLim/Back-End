@@ -2,7 +2,7 @@ package com.awexomeray.TwoParkHanJungLim.service;
 
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
-import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomExcption;
+import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import com.awexomeray.TwoParkHanJungLim.model.AirDataModel;
 import com.awexomeray.TwoParkHanJungLim.model.SensorModel;
@@ -28,9 +28,9 @@ public class MainService {
         try {
             latestRecordDateTime = findLatestRecordDateTime(collectionName);
             //공기질 데이터를 저장하는 Collection이 아닌 경우 예외처리
-            if(latestRecordDateTime == null) throw new ApiCustomExcption(ErrorCodes.NO_DATA_COLLECTION);
+            if(latestRecordDateTime == null) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
         } catch (NullPointerException e) {
-            throw new ApiCustomExcption(ErrorCodes.NO_SEARCH_COLLECTION);
+            throw new ApiCustomException(ErrorCodes.NO_SEARCH_COLLECTION);
         }
 
         //해당 날짜의 센서별 공기질 데이터를 가져옴
@@ -56,7 +56,7 @@ public class MainService {
                 //센서이름을 찾음
                 sensorName = findSensorNameByS_id(airDataModel.getS_id());
             } catch (NullPointerException e) {//센서이름이 존재하지 않는경우 예외처리
-                throw new ApiCustomExcption(ErrorCodes.NO_SEARCH_SENSOR_ID);
+                throw new ApiCustomException(ErrorCodes.NO_SEARCH_SENSOR_ID);
             }
 
             //센서정보 종합(센서이름 + 공기질데이터)
