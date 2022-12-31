@@ -1,29 +1,32 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
-import com.awexomeray.TwoParkHanJungLim.model.GraphModel;
-import com.awexomeray.TwoParkHanJungLim.model.GraphRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
+import com.awexomeray.TwoParkHanJungLim.service.GraphService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController //post man에서 사용할 수 있다.
+@RequiredArgsConstructor
+@RequestMapping("/graph")
 public class GraphController {
-    @Autowired
-    private GraphRepository graphRepository;
+    private final GraphService graphService;
 
-    @GetMapping("/user")
-    public ResponseEntity<?> getUser(){
-        List<GraphModel> graphModels  = graphRepository.findAll();
-        if (graphModels.size() > 0){
-            return new ResponseEntity<List<GraphModel>>(graphModels, HttpStatus.OK);
-        }
-        else
-        {
-            return new ResponseEntity<>("graphModels Not found", HttpStatus.NOT_FOUND);
-        }
+    @PostMapping("/user")
+    public ResponseEntity<?> getAirData(@RequestBody Map<String,String>body) {
+//        List<GraphModel> graphModels  ;
+//        if (graphModels.size() > 0){
+//            return new ResponseEntity<List<GraphModel>>(graphModels, HttpStatus.OK);
+//        }
+//        else
+//        {
+//            return new ResponseEntity<>("graphModels Not found", HttpStatus.NOT_FOUND);
+//        }
+        List<SensorInfoDto> sensorInfoDtoList = mainService.getAirDataOfSensors(userId);
+        return ResponseEntity.ok().body(sensorInfoDtoList);
     }
 }
