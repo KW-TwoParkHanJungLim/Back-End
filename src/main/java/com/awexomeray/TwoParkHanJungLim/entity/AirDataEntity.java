@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.model;
+package com.awexomeray.TwoParkHanJungLim.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AirDataModel {
+public class AirDataEntity {
     private String _id;
 
     private String day;

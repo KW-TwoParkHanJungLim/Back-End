@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.model;
+package com.awexomeray.TwoParkHanJungLim.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
