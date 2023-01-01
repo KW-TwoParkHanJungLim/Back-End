@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 //@Document(collection = "axr-sensor")
-public class SensorModel {
+public class SensorEntity {
     @Id
     private String _id;
 

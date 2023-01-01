@@ -5,7 +5,7 @@ import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
-import com.awexomeray.TwoParkHanJungLim.entity.SensorModel;
+import com.awexomeray.TwoParkHanJungLim.entity.SensorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -75,13 +75,13 @@ public class MainService {
     private String findSensorName(String sensorId) throws NullPointerException {
         String sensorCollectionName = "axr-sensor";
 
-        SensorModel sensorModel = mongoTemplate.findOne(
+        SensorEntity sensorEntity = mongoTemplate.findOne(
                 Query.query(Criteria.where("s_id").is(sensorId)),
-                SensorModel.class,
+                SensorEntity.class,
                 sensorCollectionName
         );
 
-        return sensorModel.getName();
+        return sensorEntity.getName();
     }
 
     //공기질 데이터 추출
