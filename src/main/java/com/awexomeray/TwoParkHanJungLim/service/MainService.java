@@ -1,5 +1,7 @@
 package com.awexomeray.TwoParkHanJungLim.service;
 
+import com.awexomeray.TwoParkHanJungLim.dao.AirDataDao;
+import com.awexomeray.TwoParkHanJungLim.dao.SensorDao;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
@@ -7,10 +9,6 @@ import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
 import com.awexomeray.TwoParkHanJungLim.entity.SensorEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,14 +17,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MainService {
-    private final MongoTemplate mongoTemplate;
+    private final AirDataDao airDataDao;
+    private final SensorDao sensorDao;
 
     public List<SensorInfoDto> getAirDataOfSensors(String collectionName) {
 
         //가장 최근에 기록된 데이터의 로그시간을 찾음
         String latestRecordDateTime;
         try {
-            latestRecordDateTime = findLatestRecordDateTime(collectionName);
+            latestRecordDateTime = getLatestRecordDateTime(collectionName);
             //공기질 데이터를 저장하는 Collection이 아닌 경우 예외처리
             if(latestRecordDateTime == null) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
         } catch (NullPointerException e) {
@@ -74,12 +73,7 @@ public class MainService {
     //센서이름을 찾음
     private String findSensorName(String sensorId) throws NullPointerException {
         String sensorCollectionName = "axr-sensor";
-
-        SensorEntity sensorEntity = mongoTemplate.findOne(
-                Query.query(Criteria.where("s_id").is(sensorId)),
-                SensorEntity.class,
-                sensorCollectionName
-        );
+        SensorEntity sensorEntity = sensorDao.findBySensorId(sensorCollectionName, sensorId);
 
         return sensorEntity.getName();
     }
@@ -98,20 +92,12 @@ public class MainService {
 
     //해당 날짜의 센서별 공기질 데이터를 가져옴
     private List<AirDataEntity> getAirDataEntityListAtDateTime(String collectionName, String latestRecordDateTime) {
-        return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").is(latestRecordDateTime)),
-                AirDataEntity.class,
-                collectionName
-        );
+        return airDataDao.findByLogtime(collectionName, latestRecordDateTime);
     }
 
     //가장 최근에 기록된 데이터의 로그시간을 찾음
-    private String findLatestRecordDateTime(String collectionName) throws NullPointerException{
-        AirDataEntity lastRecordAirDataEntity = mongoTemplate.findOne(
-                new Query().with(Sort.by(Sort.Direction.DESC, "logtime")).limit(1),
-                AirDataEntity.class,
-                collectionName
-        );
-        return lastRecordAirDataEntity.getLogtime();
+    private String getLatestRecordDateTime(String collectionName) throws NullPointerException{
+        AirDataEntity lastestRecordAirDataEntity = airDataDao.findLatestRecordAirData(collectionName);
+        return lastestRecordAirDataEntity.getLogtime();
     }
 }
