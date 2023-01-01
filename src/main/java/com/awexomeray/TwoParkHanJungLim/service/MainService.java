@@ -4,8 +4,8 @@ import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
-import com.awexomeray.TwoParkHanJungLim.model.AirDataModel;
-import com.awexomeray.TwoParkHanJungLim.model.SensorModel;
+import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
+import com.awexomeray.TwoParkHanJungLim.entity.SensorModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -34,19 +34,19 @@ public class MainService {
         }
 
         //해당 날짜의 센서별 공기질 데이터를 가져옴
-        List<AirDataModel> airDataModelList = getAirDataModelListAtDateTime(collectionName, latestRecordDateTime);
+        List<AirDataEntity> airDataEntityList = getAirDataEntityListAtDateTime(collectionName, latestRecordDateTime);
 
         //필요 데이터 가공
-        List<SensorInfoDto> sensorInfoDtoList = makeSensorInfoDtoList(airDataModelList);
+        List<SensorInfoDto> sensorInfoDtoList = makeSensorInfoDtoList(airDataEntityList);
 
         return sensorInfoDtoList;
     }
 
     //필요 데이터 가공
-    private List<SensorInfoDto> makeSensorInfoDtoList(List<AirDataModel> airDataModelList) {
+    private List<SensorInfoDto> makeSensorInfoDtoList(List<AirDataEntity> airDataEntityList) {
         List<SensorInfoDto> sensorInfoDtoList = new ArrayList<>();
 
-        for (var airDataModel : airDataModelList) {
+        for (var airDataModel : airDataEntityList) {
 
             //공기질 데이터 추출
             AirDataDto airDataDto = extractAirData(airDataModel);
@@ -85,33 +85,33 @@ public class MainService {
     }
 
     //공기질 데이터 추출
-    private AirDataDto extractAirData(AirDataModel airDataModel) {
+    private AirDataDto extractAirData(AirDataEntity airDataEntity) {
         return AirDataDto.builder()
-                .temp(airDataModel.getTemp())
-                .humi(airDataModel.getHumi())
-                .co2(airDataModel.getCo2())
-                .tvoc(airDataModel.getTvoc())
-                .pm01(airDataModel.getPm01())
-                .pm25(airDataModel.getPm25())
-                .pm10(airDataModel.getPm10()).build();
+                .temp(airDataEntity.getTemp())
+                .humi(airDataEntity.getHumi())
+                .co2(airDataEntity.getCo2())
+                .tvoc(airDataEntity.getTvoc())
+                .pm01(airDataEntity.getPm01())
+                .pm25(airDataEntity.getPm25())
+                .pm10(airDataEntity.getPm10()).build();
     }
 
     //해당 날짜의 센서별 공기질 데이터를 가져옴
-    private List<AirDataModel> getAirDataModelListAtDateTime(String collectionName,String latestRecordDateTime) {
+    private List<AirDataEntity> getAirDataEntityListAtDateTime(String collectionName, String latestRecordDateTime) {
         return mongoTemplate.find(
                 Query.query(Criteria.where("logtime").is(latestRecordDateTime)),
-                AirDataModel.class,
+                AirDataEntity.class,
                 collectionName
         );
     }
 
     //가장 최근에 기록된 데이터의 로그시간을 찾음
     private String findLatestRecordDateTime(String collectionName) throws NullPointerException{
-        AirDataModel lastRecordAirDataModel = mongoTemplate.findOne(
+        AirDataEntity lastRecordAirDataEntity = mongoTemplate.findOne(
                 new Query().with(Sort.by(Sort.Direction.DESC, "logtime")).limit(1),
-                AirDataModel.class,
+                AirDataEntity.class,
                 collectionName
         );
-        return lastRecordAirDataModel.getLogtime();
+        return lastRecordAirDataEntity.getLogtime();
     }
 }
