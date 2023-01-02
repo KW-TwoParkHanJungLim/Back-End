@@ -1,10 +1,10 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
-import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
-import com.awexomeray.TwoParkHanJungLim.dto.mainDto.GraphDataDto;
-import com.awexomeray.TwoParkHanJungLim.model.AirDataModel;
-import com.awexomeray.TwoParkHanJungLim.service.GraphService;
-import lombok.RequiredArgsConstructor;
+
+import com.awexomeray.TwoParkHanJungLim.entity.GraphModel;
+import com.awexomeray.TwoParkHanJungLim.repository.GraphRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
