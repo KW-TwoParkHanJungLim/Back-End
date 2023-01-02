@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserModel {
+public class UserEntity {
     private String _id;
 
     private String status;

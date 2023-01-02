@@ -1,6 +1,6 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
-import com.awexomeray.TwoParkHanJungLim.model.GraphModel;
+import com.awexomeray.TwoParkHanJungLim.entity.GraphModel;
 import com.awexomeray.TwoParkHanJungLim.repository.GraphRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

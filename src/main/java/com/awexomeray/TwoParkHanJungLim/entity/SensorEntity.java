@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.model;
+package com.awexomeray.TwoParkHanJungLim.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 //@Document(collection = "axr-sensor")
-public class SensorModel {
+public class SensorEntity {
     @Id
     private String _id;
 
