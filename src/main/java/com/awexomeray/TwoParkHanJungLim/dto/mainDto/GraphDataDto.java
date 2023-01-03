@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GraphDataDto {
     private String collection;
-    private String date;
+    private String logTime;
     private List<String> sensors;
-    private String airData;
+    private AirDataDto airData;
 }
