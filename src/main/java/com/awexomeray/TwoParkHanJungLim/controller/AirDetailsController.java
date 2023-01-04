@@ -20,10 +20,12 @@ public class AirDetailsController {
     private final AirDetailsService airDetailsService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object> > response(@RequestParam("date") Date date, @RequestParam("id") String id){
+    public ResponseEntity<Map<String, Object> > response(@RequestParam("userId") String userId,
+                                                         @RequestParam("date") Date date,
+                                                         @RequestParam("id") String id){
         Map<String, Object> response = new HashMap<>();
-        response.put("dayAvg",airDetailsService.getAvgDayAir(date,id));
-        response.put("weekAvg",airDetailsService.getAvgWeekAir(date,id));
+        response.put("dayAvg",airDetailsService.getAvgDayAir(userId,date,id));
+       // response.put("weekAvg",airDetailsService.getAvgWeekAir(userId,date,id));
 
         return ResponseEntity.ok().body(response);
     }
