@@ -1,7 +1,7 @@
 package com.awexomeray.TwoParkHanJungLim.dao;
 
+import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
-import com.awexomeray.TwoParkHanJungLim.entity.SensorEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,12 +10,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AirDataDao {
     @Autowired
     private MongoTemplate mongoTemplate;
-
 
     public AirDataEntity findLatestRecordAirData(String collectionName) {
         return mongoTemplate.findOne(
@@ -33,13 +33,14 @@ public class AirDataDao {
         );
     }
 
-    public List<AirDataEntity> findSensorData(String collectionName, String sensorId, String logTime) {
+    public Map findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId){
         Query query = new Query(new Criteria("s_id").all(sensorId));
-        query.addCriteria(new Criteria("logtime").regex(logTime));
-        return mongoTemplate.find(
-                query,
-                AirDataEntity.class,
-                collectionName
+        query.addCriteria(new Criteria("logtime").regex(requestGraphDataDto.getLogTime()));
+        query.fields().include("s_id").include("logtime").include(requestGraphDataDto.getAirData());
+        return mongoTemplate.findOne(
+                query.with(Sort.by(Sort.Direction.DESC,"logtime")),
+                Map.class,
+                requestGraphDataDto.getCollection()
         );
     }
 }

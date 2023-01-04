@@ -10,14 +10,14 @@ public class AirDataDto {
 
     private Double humi;
 
-    private Integer co2;
+    private Double co2;
 
-    private Integer tvoc;
+    private Double tvoc;
 
-    private Integer pm01;
+    private Double pm01;
 
-    private Integer pm25;
+    private Double pm25;
 
-    private Integer pm10;
+    private Double pm10;
 
 }

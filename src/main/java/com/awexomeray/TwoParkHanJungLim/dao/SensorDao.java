@@ -22,12 +22,4 @@ public class SensorDao {
                 sensorCollectionName
         );
     }
-
-    public List<SensorEntity> findBySensorName(List<String> sensorName) {
-        return mongoTemplate.find(
-                Query.query(Criteria.where("name").is(sensorName)),
-                SensorEntity.class,
-                "axr-sensor"
-        );
-    }
 }
