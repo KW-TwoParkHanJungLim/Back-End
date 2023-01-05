@@ -1,7 +1,5 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
-
-
 import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.graphDto.ResponseGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
@@ -10,9 +8,7 @@ import com.awexomeray.TwoParkHanJungLim.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 
 @RestController //post man에서 사용할 수 있다.
