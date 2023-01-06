@@ -2,7 +2,6 @@ package com.awexomeray.TwoParkHanJungLim.controller;
 
 
 import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
-import com.awexomeray.TwoParkHanJungLim.dto.graphDto.ResponseGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.service.GraphService;
 import com.awexomeray.TwoParkHanJungLim.service.MainService;
@@ -22,14 +21,14 @@ public class GraphController {
     private final MainService mainService;
 
     @GetMapping("/sensors")
-    public ResponseEntity<?> getSensorList(@RequestParam("userId") String userId){
+    public ResponseEntity<?> getSensorList(@RequestParam("userId") String userId) {
         List<SensorInfoDto> sensorInfoDtoList = mainService.getAirDataOfSensors(userId);
         return ResponseEntity.ok().body(sensorInfoDtoList);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> getAirData(@RequestBody RequestGraphDataDto requestGraphDataDto) {
-        ResponseGraphDataDto graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
+        List<List<Map>> graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
         return ResponseEntity.ok().body(graphAirData);
     }
 }

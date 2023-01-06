@@ -1,6 +1,5 @@
 package com.awexomeray.TwoParkHanJungLim.dto.graphDto;
 
-import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
