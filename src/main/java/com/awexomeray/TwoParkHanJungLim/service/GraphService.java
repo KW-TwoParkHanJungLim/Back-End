@@ -2,7 +2,6 @@ package com.awexomeray.TwoParkHanJungLim.service;
 
 import com.awexomeray.TwoParkHanJungLim.dao.AirDataDao;
 import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
-import com.awexomeray.TwoParkHanJungLim.dto.graphDto.ResponseGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ public class GraphService {
     private final AirDataDao airDataDao;
     private final MongoTemplate mongoTemplate;
 
-    public ResponseGraphDataDto getAirDataOfGraph(RequestGraphDataDto requestGraphDataDto) {
+    public List<Map> getAirDataOfGraph(RequestGraphDataDto requestGraphDataDto) {
 
         //넘겨준 컬렉션이 유효한지 확인한다.
         getCollection(requestGraphDataDto.getCollection());
@@ -27,8 +26,8 @@ public class GraphService {
         List<Map> airDataList = getSensorData(requestGraphDataDto);
 
         //데이터 가공
-        List<Map> mapList = optimizeData(airDataList);
-        return ResponseGraphDataDto.builder().sensorData(mapList).build();
+        List<Map> graphData = optimizeData(airDataList);
+        return graphData;
     }
 
     //_id를 제외한 정보로 가공한다.
@@ -52,7 +51,7 @@ public class GraphService {
     private List<Map> getSensorData(RequestGraphDataDto requestGraphDataDto) {
         List<Map> sensorData = new ArrayList<>();
         for (String element : requestGraphDataDto.getSensors()) {
-            sensorData.add(airDataDao.findSensorData(requestGraphDataDto , element));
+            sensorData.add(airDataDao.findSensorData(requestGraphDataDto, element));
         }
         return sensorData;
     }
