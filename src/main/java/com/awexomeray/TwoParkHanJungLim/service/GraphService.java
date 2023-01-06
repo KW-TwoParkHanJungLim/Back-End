@@ -17,39 +17,31 @@ public class GraphService {
     private final AirDataDao airDataDao;
     private final MongoTemplate mongoTemplate;
 
-    public List<Map> getAirDataOfGraph(RequestGraphDataDto requestGraphDataDto) {
+    public List<List<Map>> getAirDataOfGraph(RequestGraphDataDto requestGraphDataDto) {
 
         //넘겨준 컬렉션이 유효한지 확인한다.
         getCollection(requestGraphDataDto.getCollection());
 
         //넘겨준 센서의 정보를 리스트에 담는다.
-        List<Map> airDataList = getSensorData(requestGraphDataDto);
+        List<List<Map>> airDataList = getSensorData(requestGraphDataDto);
 
         //데이터 가공
-        List<Map> graphData = optimizeData(airDataList);
-        return graphData;
+        return optimizeData(airDataList);
     }
 
     //_id를 제외한 정보로 가공한다.
-    private List<Map> optimizeData(List<Map> airDataList) {
-        List<Map> mapList = new ArrayList<>();
-
-        for (var airData : airDataList) {
-            Map element = new HashMap<>();
-            Iterator<?> keys = airData.keySet().iterator();
-
-            for (var key : airData.keySet()) {
-                if (key.equals("_id")) continue;
-                element.put(key, airData.get(key));
+    private List<List<Map>> optimizeData(List<List<Map>> airDataList) {
+        for (var list : airDataList) {
+            for (var airData : list) {
+                airData.remove("_id");
             }
-            mapList.add(element);
         }
-        return mapList;
+        return airDataList;
     }
 
     //센서 정보를 리스트에 담아온다.
-    private List<Map> getSensorData(RequestGraphDataDto requestGraphDataDto) {
-        List<Map> sensorData = new ArrayList<>();
+    private List<List<Map>> getSensorData(RequestGraphDataDto requestGraphDataDto) {
+        List<List<Map>> sensorData = new ArrayList<>();
         for (String element : requestGraphDataDto.getSensors()) {
             sensorData.add(airDataDao.findSensorData(requestGraphDataDto, element));
         }

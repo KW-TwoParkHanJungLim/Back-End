@@ -33,11 +33,11 @@ public class AirDataDao {
         );
     }
 
-    public Map findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId){
+    public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId){
         Query query = new Query(new Criteria("s_id").all(sensorId));
         query.addCriteria(new Criteria("logtime").regex(requestGraphDataDto.getLogTime()));
         query.fields().include("s_id").include("logtime").include(requestGraphDataDto.getAirData());
-        return mongoTemplate.findOne(
+        return mongoTemplate.find(
                 query.with(Sort.by(Sort.Direction.DESC,"logtime")),
                 Map.class,
                 requestGraphDataDto.getCollection()

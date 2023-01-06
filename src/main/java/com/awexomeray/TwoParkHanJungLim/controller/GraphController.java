@@ -27,7 +27,7 @@ public class GraphController {
 
     @PostMapping
     public ResponseEntity<?> getAirData(@RequestBody RequestGraphDataDto requestGraphDataDto) {
-        List<Map> graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
+        List<List<Map>> graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
         return ResponseEntity.ok().body(graphAirData);
     }
 }
