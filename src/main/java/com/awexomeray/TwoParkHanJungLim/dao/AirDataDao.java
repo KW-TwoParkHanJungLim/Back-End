@@ -31,20 +31,4 @@ public class AirDataDao {
                 collectionName
         );
     }
-
-    public List<AirDataEntity> findAirDataByDay(String collectionName, String date, String id){
-        return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").regex(date)),
-                AirDataEntity.class,
-                collectionName
-        );
-    }
-
-    public List<AirDataEntity> findAirDataByWeek(String collectionName, String date, String id){
-        return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").regex(date)),
-                AirDataEntity.class,
-                collectionName
-        );
-    }
 }
