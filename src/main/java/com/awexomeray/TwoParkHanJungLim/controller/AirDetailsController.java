@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +22,11 @@ public class AirDetailsController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object> > response(@RequestParam("userId") String userId,
-                                                         @RequestParam("date") Date date,
+                                                         @RequestParam("date") String date,
                                                          @RequestParam("id") String id){
         Map<String, Object> response = new HashMap<>();
-        response.put("dayAvg",airDetailsService.getAvgDayAir(userId,date,id));
-       // response.put("weekAvg",airDetailsService.getAvgWeekAir(userId,date,id));
+        response.put("dayAvg",airDetailsService.getAvgAir(userId,date,id,1));
+        response.put("weekAvg",airDetailsService.getAvgAir(userId,date,id,7));
 
         return ResponseEntity.ok().body(response);
     }

@@ -1,17 +1,16 @@
 package com.awexomeray.TwoParkHanJungLim.service;
 
 import com.awexomeray.TwoParkHanJungLim.dao.AirDataDao;
-import com.awexomeray.TwoParkHanJungLim.dto.airDetails.DayAirAvg;
+import com.awexomeray.TwoParkHanJungLim.dto.airDetails.AirAvgDto;
 import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
-import com.awexomeray.TwoParkHanJungLim.entity.SensorEntity;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -22,12 +21,11 @@ public class AirDetailsService {
 
     private final MongoTemplate mongoTemplate;
 
-    public DayAirAvg getAvgDayAir(String collectionName, Date date, String id) {
-
-        SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd");
-        String day = formatType.format(date);
-
-        List<AirDataEntity> dayList = airDataDao.findAirDataByDay(collectionName, day, id);
+    public AirAvgDto getAvgAir(String collectionName, String date, String id,int period) {
+        LocalDate afterDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+        String startDate=getDate(afterDate,1-period);
+        String endDate=getDate(afterDate,1);
+        List<AirDataEntity> dayList = airDataDao.findAirDataByDate(collectionName, startDate,endDate, id);
         if (dayList.size() == 0) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
         double temp = 0, humi = 0, co2 = 0, tvoc = 0, pm01 = 0, pm25 = 0, pm10 = 0;
         for (AirDataEntity airData : dayList) {
@@ -41,7 +39,7 @@ public class AirDetailsService {
         }
         int size = dayList.size();
 
-        DayAirAvg dayAirAvg = DayAirAvg.builder()
+        AirAvgDto airAvgDto = AirAvgDto.builder()
                 .temp(temp / size)
                 .humi(humi / size)
                 .co2(co2 / size)
@@ -51,11 +49,12 @@ public class AirDetailsService {
                 .pm10(pm10 / size)
                 .build();
 
-        return dayAirAvg;
+        return airAvgDto;
     }
 
-    public List<AirDataEntity> getAvgWeekAir(String collectionName, Date date, String id) {
-        SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd");
-        String day = formatType.format(date);
+
+    private String getDate(LocalDate date, int addDay){
+        LocalDate modDate = date.plusDays(addDay);
+        return modDate+"T00:00:00.000Z";
     }
 }

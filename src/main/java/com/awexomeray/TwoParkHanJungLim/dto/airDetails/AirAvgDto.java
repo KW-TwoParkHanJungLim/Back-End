@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class DayAirAvg {
+public class AirAvgDto {
     private Double temp;
 
     private Double humi;
