@@ -9,6 +9,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +38,22 @@ public class AirDataDao {
         );
     }
 
-    public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId){
-        Query query = new Query(new Criteria("s_id").all(sensorId));
+    public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId) {
+
+        Query query = new Query(new Criteria("s_id").is(sensorId));
         query.addCriteria(new Criteria("logtime").regex(requestGraphDataDto.getLogTime()));
-        query.fields().include("s_id").include("logtime").include(requestGraphDataDto.getAirData());
-        return mongoTemplate.find(
-                query.with(Sort.by(Sort.Direction.DESC,"logtime")),
+        query.fields()
+                .include("s_id")
+                .include("logtime")
+                .include(requestGraphDataDto.getAirData())
+                .exclude("_id");
+
+        List<Map> logtime = mongoTemplate.find(
+                query,
                 Map.class,
                 requestGraphDataDto.getCollection()
         );
+
+        return logtime;
     }
 }
