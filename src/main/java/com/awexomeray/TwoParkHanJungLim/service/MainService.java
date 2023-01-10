@@ -27,7 +27,7 @@ public class MainService {
         try {
             latestRecordDateTime = getLatestRecordDateTime(collectionName);
             //공기질 데이터를 저장하는 Collection이 아닌 경우 예외처리
-            if(latestRecordDateTime == null) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
+            if (latestRecordDateTime == null) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
         } catch (NullPointerException e) {
             throw new ApiCustomException(ErrorCodes.NO_SEARCH_COLLECTION);
         }
@@ -36,9 +36,7 @@ public class MainService {
         List<AirDataEntity> airDataEntityList = getAirDataEntityListAtDateTime(collectionName, latestRecordDateTime);
 
         //필요 데이터 가공
-        List<SensorInfoDto> sensorInfoDtoList = makeSensorInfoDtoList(airDataEntityList);
-
-        return sensorInfoDtoList;
+        return makeSensorInfoDtoList(airDataEntityList);
     }
 
     //필요 데이터 가공
@@ -97,8 +95,8 @@ public class MainService {
     }
 
     //가장 최근에 기록된 데이터의 로그시간을 찾음
-    private String getLatestRecordDateTime(String collectionName) throws NullPointerException{
-        AirDataEntity lastestRecordAirDataEntity = airDataDao.findLatestRecordAirData(collectionName);
-        return lastestRecordAirDataEntity.getLogtime();
+    private String getLatestRecordDateTime(String collectionName) throws NullPointerException {
+        AirDataEntity latestRecordAirDataEntity = airDataDao.findLatestRecordAirData(collectionName);
+        return latestRecordAirDataEntity.getLogtime();
     }
 }

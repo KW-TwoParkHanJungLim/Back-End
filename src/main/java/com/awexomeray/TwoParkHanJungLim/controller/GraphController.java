@@ -1,29 +1,34 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
-import com.awexomeray.TwoParkHanJungLim.entity.GraphModel;
-import com.awexomeray.TwoParkHanJungLim.repository.GraphRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
+import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
+import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
+import com.awexomeray.TwoParkHanJungLim.service.GraphService;
+import com.awexomeray.TwoParkHanJungLim.service.MainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController //post man에서 사용할 수 있다.
+@RequiredArgsConstructor
+@RequestMapping("/graph")
 public class GraphController {
-    @Autowired
-    private GraphRepository graphRepository;
+    private final GraphService graphService;
+    private final MainService mainService;
 
-    @GetMapping("/user")
-    public ResponseEntity<?> getUser(){
-        List<GraphModel> graphModels  = graphRepository.findAll();
-        if (graphModels.size() > 0){
-            return new ResponseEntity<List<GraphModel>>(graphModels, HttpStatus.OK);
-        }
-        else
-        {
-            return new ResponseEntity<>("graphModels Not found", HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/sensors") //센서 리스트 제공
+    public ResponseEntity<?> getSensorList(@RequestParam("userId") String userId) {
+        List<SensorInfoDto> sensorInfoDtoList = mainService.getAirDataOfSensors(userId);
+        return ResponseEntity.ok().body(sensorInfoDtoList);
+    }
+
+    @PostMapping//그래프 데이터 반환
+    public ResponseEntity<?> getAirData(@RequestBody RequestGraphDataDto requestGraphDataDto) {
+        List<List<Map>> graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
+        return ResponseEntity.ok().body(graphAirData);
     }
 }
