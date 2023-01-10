@@ -39,7 +39,6 @@ public class AirDataDao {
     }
 
     public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId) {
-
         Query query = new Query(new Criteria("s_id").is(sensorId));
         query.addCriteria(new Criteria("logtime").regex(requestGraphDataDto.getLogTime()));
         query.fields()
@@ -47,7 +46,7 @@ public class AirDataDao {
                 .include("logtime")
                 .include(requestGraphDataDto.getAirData())
                 .exclude("_id");
-
+        //mongoTemplate.indexOps(requestGraphDataDto.getCollection());
         List<Map> logtime = mongoTemplate.find(
                 query,
                 Map.class,
