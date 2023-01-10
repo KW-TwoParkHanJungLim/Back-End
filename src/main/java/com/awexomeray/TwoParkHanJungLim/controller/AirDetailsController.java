@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/Details")
+@RequestMapping("/details")
 public class AirDetailsController {
 
     private final AirDetailsService airDetailsService;
