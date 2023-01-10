@@ -99,4 +99,5 @@ public class MainService {
         AirDataEntity latestRecordAirDataEntity = airDataDao.findLatestRecordAirData(collectionName);
         return latestRecordAirDataEntity.getLogtime();
     }
+
 }
