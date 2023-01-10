@@ -21,7 +21,7 @@ public class AirDetailsController {
     private final AirDetailsService airDetailsService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> response(@RequestParam("userId") String userId,
+    public ResponseEntity<Map<String, Object>> averageController(@RequestParam("userId") String userId,
                                                         @RequestParam("date") String date,
                                                         @RequestParam("id") String id) {
         Map<String, Object> response = new HashMap<>();
