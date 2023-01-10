@@ -46,7 +46,6 @@ public class AirDetailsService {
                 .pm25(pm25 / size)
                 .pm10(pm10 / size)
                 .build();
-
         return airAvgDto;
     }
 
