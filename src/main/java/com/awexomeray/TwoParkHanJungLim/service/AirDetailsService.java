@@ -23,9 +23,9 @@ public class AirDetailsService {
 
     public AirAvgDto getAvgAir(String collectionName, String date, String id, int period) {
         LocalDate afterDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-        String startDate=getDate(afterDate,1-period);
-        String endDate=getDate(afterDate,1);
-        List<AirDataEntity> dayList = airDataDao.findAirDataByDate(collectionName, startDate,endDate, id);
+        String startDate = getDate(afterDate, 1 - period);
+        String endDate = getDate(afterDate, 1);
+        List<AirDataEntity> dayList = airDataDao.findAirDataByDate(collectionName, startDate, endDate, id);
         if (dayList.size() == 0) throw new ApiCustomException(ErrorCodes.NO_DATA_COLLECTION);
         double temp = 0, humi = 0, co2 = 0, tvoc = 0, pm01 = 0, pm25 = 0, pm10 = 0;
         for (AirDataEntity airData : dayList) {
@@ -53,8 +53,8 @@ public class AirDetailsService {
     }
 
 
-    private String getDate(LocalDate date, int addDay){
+    private String getDate(LocalDate date, int addDay) {
         LocalDate modDate = date.plusDays(addDay);
-        return modDate+"T00:00:00.000Z";
+        return modDate + "T00:00:00.000Z";
     }
 }
