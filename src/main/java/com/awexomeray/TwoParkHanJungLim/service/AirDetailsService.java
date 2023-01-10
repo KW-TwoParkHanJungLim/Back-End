@@ -19,8 +19,6 @@ public class AirDetailsService {
 
     private final AirDataDao airDataDao;
 
-    private final MongoTemplate mongoTemplate;
-
     public AirAvgDto getAvgAir(String collectionName, String date, String id, int period) {
         LocalDate afterDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         String startDate = getDate(afterDate, 1 - period);
