@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public class GraphController {
         return ResponseEntity.ok().body(sensorInfoDtoList);
     }
 
-    @PostMapping//그래프 데이터 반환
-    public ResponseEntity<?> getAirData(@RequestBody RequestGraphDataDto requestGraphDataDto) {
+    @GetMapping//그래프 데이터 반환
+    public ResponseEntity<?> getAirData(@Valid RequestGraphDataDto requestGraphDataDto) {
         List<List<Map>> graphAirData = graphService.getAirDataOfGraph(requestGraphDataDto);
         return ResponseEntity.ok().body(graphAirData);
     }
