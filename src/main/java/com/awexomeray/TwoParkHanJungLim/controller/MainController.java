@@ -1,5 +1,6 @@
 package com.awexomeray.TwoParkHanJungLim.controller;
 
+import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirUnitWithSensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.service.MainService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class MainController {
     //collection이름을 받아서 센서별 공기질 데이터를 제공
     @GetMapping
     public ResponseEntity<?> findSensorsData(@RequestParam("userId") String userId) {
-        List<SensorInfoDto> sensorInfoDtoList = mainService.getAirDataOfSensors(userId);
-        return ResponseEntity.ok().body(sensorInfoDtoList);
+        AirUnitWithSensorInfoDto airUnitWithSensorInfoDto = mainService.getAirUnitWithSensorInfo(userId);
+        return ResponseEntity.ok().body(airUnitWithSensorInfoDto);
     }
 }

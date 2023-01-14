@@ -3,6 +3,7 @@ package com.awexomeray.TwoParkHanJungLim.service;
 import com.awexomeray.TwoParkHanJungLim.dao.AirDataDao;
 import com.awexomeray.TwoParkHanJungLim.dao.SensorDao;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirDataDto;
+import com.awexomeray.TwoParkHanJungLim.dto.mainDto.AirUnitWithSensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.dto.mainDto.SensorInfoDto;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
@@ -19,6 +20,11 @@ import java.util.List;
 public class MainService {
     private final AirDataDao airDataDao;
     private final SensorDao sensorDao;
+
+    public AirUnitWithSensorInfoDto getAirUnitWithSensorInfo(String collectionName) {
+        List<SensorInfoDto> sensorInfoDtoList = getAirDataOfSensors(collectionName);
+        return new AirUnitWithSensorInfoDto(sensorInfoDtoList);
+    }
 
     public List<SensorInfoDto> getAirDataOfSensors(String collectionName) {
 
