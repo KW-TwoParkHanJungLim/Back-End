@@ -33,8 +33,8 @@ public class GraphService {
     //센서 정보를 리스트에 담아온다.
     private List<List<Map>> getSensorData(RequestGraphDataDto requestGraphDataDto) {
         List<List<Map>> sensorData = new ArrayList<>();
-        for (String element : requestGraphDataDto.getSensors()) { //센서별 반복
-            List<Map> allAirDataList = airDataDao.findSensorData(requestGraphDataDto, element);
+        for (String sensorId : requestGraphDataDto.getSensors()) { //센서별 반복
+            List<Map> allAirDataList = airDataDao.findSensorData(requestGraphDataDto, sensorId);
             List<Map> parseDataMapList = refineAllAirDataList(requestGraphDataDto, allAirDataList);
             sensorData.add(parseDataMapList);
         }
@@ -46,7 +46,6 @@ public class GraphService {
         List<Map> newMapList = new ArrayList<>();
         Map avg = new HashMap<>();
         double sum = 0.0;
-        int cnt = 0;
 
         LocalDateTime standardLogTime = LocalDateTime.parse(allAirDataList.get(0).get("logtime").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         //10분 단위로 자르기 위해 1의 자리 수를 0으로 초기화 ex)59분 -> 50분 / 09분 -> 00분
@@ -69,10 +68,9 @@ public class GraphService {
 
             //평균 구하기
             sum += (double) log.get(requestGraphDataDto.getAirData());
-            cnt++;
         }
         avg.put("s_id", allAirDataList.get(0).get("s_id"));
-        avg.put(requestGraphDataDto.getAirData() + "Avg", sum / cnt);
+        avg.put(requestGraphDataDto.getAirData() + "Avg", sum / allAirDataList.size());
 
         newMapList.add(avg);
         return newMapList;
