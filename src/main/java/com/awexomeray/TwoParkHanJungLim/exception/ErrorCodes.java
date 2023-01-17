@@ -10,7 +10,8 @@ public enum ErrorCodes {
     NO_SEARCH_COLLECTION("해당 userId는 존재하지 않습니다.", 1001),
     NO_DATA_COLLECTION("해당 collection은 공기질 데이터를 저장하지 않습니다.", 1002),
     NO_SEARCH_AIR_TYPE("해당 공기질 종류는 존재하지 않습니다.", 1003),
-    NO_SEARCH_DATE("해당 날짜의 데이터는 존재하지 않습니다.", 1004);
+    NO_SEARCH_DATE("해당 날짜의 데이터는 존재하지 않습니다.", 1004),
+    NO_SEARCH_USER("해당 유저는 존재하지 않습니다.", 1005);
 
     private final String errorMessage;
     private final Integer errorCode;
