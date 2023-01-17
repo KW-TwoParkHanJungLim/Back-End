@@ -33,7 +33,7 @@ public class GraphService {
         Boolean airData = isAirData(requestGraphDataDto.getAirData());
 
         //존재하지 않은 공기질 데이터일 때
-        if (!airData) throw new ApiCustomException(ErrorCodes.NO_SEARCH_AIR_DATA);
+        if (!airData) throw new ApiCustomException(ErrorCodes.NO_SEARCH_AIR_TYPE);
 
         //넘겨준 센서의 정보를 리스트에 담는다.
         return getSensorData(requestGraphDataDto);
