@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<?> userProfile(@RequestParam("id") String id){
+    public ResponseEntity<?> userProfile(@RequestParam("id") String id) {
         return ResponseEntity.ok().body(userService.getUserInfo(id));
     }
 }

@@ -19,7 +19,7 @@ public class UserDao {
         return mongoTemplate.findAll(UserEntity.class, "_users");
     }
 
-    public UserEntity getUser(String id){
+    public UserEntity getUser(String id) {
         return mongoTemplate.findOne(
                 Query.query(Criteria.where("id").is(id)),
                 UserEntity.class,
