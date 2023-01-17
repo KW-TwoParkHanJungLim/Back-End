@@ -13,7 +13,7 @@ public class UserDao {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public List<UserEntity> getUsers(){
-        return mongoTemplate.findAll(UserEntity.class,"_users");
+    public List<UserEntity> getUsers() {
+        return mongoTemplate.findAll(UserEntity.class, "_users");
     }
 }

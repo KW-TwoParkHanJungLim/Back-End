@@ -19,8 +19,8 @@ public class AdminController {
 
 
     @GetMapping("/userList")
-    public ResponseEntity<?> getUserList(){
-        List<String> users=adminService.getAllUserId();
+    public ResponseEntity<?> getUserList() {
+        List<String> users = adminService.getAllUserId();
         return ResponseEntity.ok().body(users);
     }
 }

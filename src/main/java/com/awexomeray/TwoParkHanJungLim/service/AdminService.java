@@ -13,10 +13,10 @@ import java.util.List;
 public class AdminService {
     private final UserDao userDao;
 
-    public List<String> getAllUserId(){
-        List<UserEntity> users=userDao.getUsers();
-        List<String> usersId=new ArrayList<>();
-        for(UserEntity user : users){
+    public List<String> getAllUserId() {
+        List<UserEntity> users = userDao.getUsers();
+        List<String> usersId = new ArrayList<>();
+        for (UserEntity user : users) {
             usersId.add(user.getId());
         }
 
