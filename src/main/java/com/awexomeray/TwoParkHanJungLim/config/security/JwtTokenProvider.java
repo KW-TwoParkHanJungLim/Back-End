@@ -1,5 +1,6 @@
 package com.awexomeray.TwoParkHanJungLim.config.security;
 
+import com.awexomeray.TwoParkHanJungLim.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -26,6 +29,8 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
+    private final CustomUserDetailService customUserDetailService;
+
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -33,12 +38,11 @@ public class JwtTokenProvider {
 
     //JWT 토큰 생성
     public String createToken(String userPk, String role){
+        List<String> roles = new ArrayList<>();
         Claims claims = Jwts.claims().setSubject(userPk);
-        //claims.put("role", role);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
-                .claim("auth",role)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
                 .signWith(SignatureAlgorithm.HS256,secretKey)
@@ -47,8 +51,10 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserPk(token));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return authentication;
     }
 
     // 토큰에서 회원 정보 추출

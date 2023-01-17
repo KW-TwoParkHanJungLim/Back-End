@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 
-import javax.validation.constraints.Null;
 import java.util.List;
 
 @Repository
@@ -29,4 +28,5 @@ public class UserDao {
 
         return userEntity;
     }
+
 }
