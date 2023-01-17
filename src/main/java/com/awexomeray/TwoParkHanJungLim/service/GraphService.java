@@ -76,7 +76,7 @@ public class GraphService {
             if (currentDateTime.isBefore(standardLogTime)) continue;
             currentDateTime = currentDateTime.withSecond(0);
             log.put("logtime", currentDateTime.toString() + ":00.000Z");
-            log.put("value",log.get(requestGraphDataDto.getAirData()));
+            log.put("value", log.get(requestGraphDataDto.getAirData()));
             log.remove(requestGraphDataDto.getAirData());
             newMapList.add(log);
             standardLogTime = standardLogTime.plusMinutes(10);
@@ -98,16 +98,24 @@ public class GraphService {
     }
 
     //공기질 데이터 제대로 넘겨줬는지 확인
-    private Boolean isAirData(String airData){
-        switch (airData){
-            case "temp": break;
-            case "humi": break;
-            case "co2": break;
-            case "tvoc": break;
-            case "pm01": break;
-            case "pm25": break;
-            case "pm10": break;
-            default: return false;
+    private Boolean isAirData(String airData) {
+        switch (airData) {
+            case "temp":
+                break;
+            case "humi":
+                break;
+            case "co2":
+                break;
+            case "tvoc":
+                break;
+            case "pm01":
+                break;
+            case "pm25":
+                break;
+            case "pm10":
+                break;
+            default:
+                return false;
         }
         return true;
     }

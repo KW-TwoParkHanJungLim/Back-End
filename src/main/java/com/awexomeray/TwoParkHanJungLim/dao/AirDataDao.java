@@ -50,14 +50,14 @@ public class AirDataDao {
         );
 
         //해당 날짜의 데이터가 존재하지 않을 때 예외처리
-        if (logtime.size() == 0){
+        if (logtime.size() == 0) {
             throw new ApiCustomException(ErrorCodes.NO_SEARCH_DATE);
         }
 
         return logtime;
     }
 
-    public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate,String endDate ,String id) {
+    public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate, String endDate, String id) {
         return mongoTemplate.find(
                 Query.query(Criteria.where("logtime").gte(beginDate).lt(endDate).and("s_id").is(id)),
                 AirDataEntity.class,
