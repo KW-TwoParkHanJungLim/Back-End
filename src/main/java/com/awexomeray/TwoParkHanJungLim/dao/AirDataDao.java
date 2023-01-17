@@ -2,6 +2,8 @@ package com.awexomeray.TwoParkHanJungLim.dao;
 
 import com.awexomeray.TwoParkHanJungLim.dto.graphDto.RequestGraphDataDto;
 import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
+import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
+import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -47,10 +49,15 @@ public class AirDataDao {
                 requestGraphDataDto.getCollection()
         );
 
+        //해당 날짜의 데이터가 존재하지 않을 때 예외처리
+        if (logtime.size() == 0) {
+            throw new ApiCustomException(ErrorCodes.NO_SEARCH_DATE);
+        }
+
         return logtime;
     }
 
-    public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate,String endDate ,String id) {
+    public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate, String endDate, String id) {
         return mongoTemplate.find(
                 Query.query(Criteria.where("logtime").gte(beginDate).lt(endDate).and("s_id").is(id)),
                 AirDataEntity.class,
