@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Repository
@@ -19,11 +20,13 @@ public class UserDao {
         return mongoTemplate.findAll(UserEntity.class, "_users");
     }
 
-    public UserEntity getUser(String id) {
-        return mongoTemplate.findOne(
+    public UserEntity getUser(String id) throws NullPointerException {
+        UserEntity userEntity = mongoTemplate.findOne(
                 Query.query(Criteria.where("id").is(id)),
                 UserEntity.class,
                 "_users"
         );
+
+        return userEntity;
     }
 }
