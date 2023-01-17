@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.testMVC.model;
+package com.awexomeray.TwoParkHanJungLim.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
