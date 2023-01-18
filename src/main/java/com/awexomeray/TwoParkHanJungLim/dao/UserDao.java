@@ -19,11 +19,12 @@ public class UserDao {
         return mongoTemplate.findAll(UserEntity.class, "_users");
     }
 
-    public UserEntity getUser(String id) {
+    public UserEntity getUser(String id) throws NullPointerException {
         return mongoTemplate.findOne(
                 Query.query(Criteria.where("id").is(id)),
                 UserEntity.class,
                 "_users"
         );
     }
+
 }
