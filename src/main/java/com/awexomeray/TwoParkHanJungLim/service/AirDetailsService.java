@@ -6,7 +6,6 @@ import com.awexomeray.TwoParkHanJungLim.entity.AirDataEntity;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

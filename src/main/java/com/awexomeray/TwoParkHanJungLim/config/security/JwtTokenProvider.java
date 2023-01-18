@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -33,14 +31,14 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String createToken(String userPk){
+    public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .signWith(SignatureAlgorithm.HS256,secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 

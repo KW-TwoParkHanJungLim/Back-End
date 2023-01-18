@@ -1,6 +1,7 @@
 package com.awexomeray.TwoParkHanJungLim.config.security;
 
 import com.awexomeray.TwoParkHanJungLim.dao.UserDao;
+import com.awexomeray.TwoParkHanJungLim.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

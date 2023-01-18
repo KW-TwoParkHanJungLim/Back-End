@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.login;
+package com.awexomeray.TwoParkHanJungLim.controller;
 
 import com.awexomeray.TwoParkHanJungLim.config.security.JwtTokenProvider;
 import com.awexomeray.TwoParkHanJungLim.dao.UserDao;
