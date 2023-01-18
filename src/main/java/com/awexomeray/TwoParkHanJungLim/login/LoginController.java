@@ -35,6 +35,6 @@ public class LoginController {
             throw new ApiCustomException(ErrorCodes.FAIL_LOGIN);
         }
 
-        return jwtTokenProvider.createToken(user.getId(), user.getStatus());
+        return jwtTokenProvider.createToken(user.getId());
     }
 }
