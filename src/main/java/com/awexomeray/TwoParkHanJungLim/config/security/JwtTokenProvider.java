@@ -15,16 +15,17 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    private String secretKey ="axexomeray";
+    private String secretKey ="404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
     // 토큰 유효시간 60분
     private long tokenValidTime = 60 * 60 * 1000L;
 
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService customUserDetailService;
 
     @PostConstruct
     protected void init() {
@@ -32,13 +33,11 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String createToken(String userPk, String role){
+    public String createToken(String userPk){
         Claims claims = Jwts.claims().setSubject(userPk);
-        //claims.put("role", role);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
-                .claim("auth",role)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
                 .signWith(SignatureAlgorithm.HS256,secretKey)
@@ -47,7 +46,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
