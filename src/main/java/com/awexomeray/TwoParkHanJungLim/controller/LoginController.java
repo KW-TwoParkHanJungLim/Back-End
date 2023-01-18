@@ -1,4 +1,4 @@
-package com.awexomeray.TwoParkHanJungLim.login;
+package com.awexomeray.TwoParkHanJungLim.controller;
 
 import com.awexomeray.TwoParkHanJungLim.config.security.JwtTokenProvider;
 import com.awexomeray.TwoParkHanJungLim.dao.UserDao;
@@ -35,6 +35,6 @@ public class LoginController {
             throw new ApiCustomException(ErrorCodes.FAIL_LOGIN);
         }
 
-        return jwtTokenProvider.createToken(user.getId(), user.getStatus());
+        return jwtTokenProvider.createToken(user.getId());
     }
 }

@@ -21,7 +21,7 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        class Inner implements GrantedAuthority{
+        class Inner implements GrantedAuthority {
             public String role;
 
             public void setRole(String role) {
@@ -36,11 +36,10 @@ public class PrincipalDetails implements UserDetails {
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         Inner inner = new Inner();
-        if(this.userEntity.getStatus().equals("admin")){
+        if (this.userEntity.getStatus().equals("admin")) {
             inner.setRole("ROLE_ADMIN");
             authorities.add(inner);
-        }
-        else {
+        } else {
             inner.setRole("ROLE_USER");
             authorities.add(inner);
         }

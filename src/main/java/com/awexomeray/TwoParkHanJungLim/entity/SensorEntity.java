@@ -8,7 +8,6 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@Document(collection = "axr-sensor")
 public class SensorEntity {
     @Id
     private String _id;
