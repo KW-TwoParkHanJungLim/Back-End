@@ -6,10 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -44,9 +47,12 @@ public class UserEntity implements UserDetails {
 
     private String avatar;
 
+    //해당 User의 권한을 리턴하는 곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if(!status.equals("admin")) status = "user";
+        String a = "ROLE_" + status;
+        return List.of(new SimpleGrantedAuthority(a));
     }
 
     @Override
