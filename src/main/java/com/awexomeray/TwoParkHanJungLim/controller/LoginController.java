@@ -6,10 +6,13 @@ import com.awexomeray.TwoParkHanJungLim.entity.UserEntity;
 import com.awexomeray.TwoParkHanJungLim.exception.ApiCustomException;
 import com.awexomeray.TwoParkHanJungLim.exception.ErrorCodes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,7 +24,8 @@ public class LoginController {
 
     //로그인
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> body) {
+
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         UserEntity user;
 
         try {
@@ -35,6 +39,10 @@ public class LoginController {
             throw new ApiCustomException(ErrorCodes.FAIL_LOGIN);
         }
 
-        return jwtTokenProvider.createToken(user.getId());
+        Map response = new HashMap<>();
+        response.put("role", user.getStatus());
+        response.put("token", jwtTokenProvider.createToken(user.getId()));
+
+        return ResponseEntity.ok().body(response);
     }
 }

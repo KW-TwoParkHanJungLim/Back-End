@@ -82,7 +82,9 @@ public class GraphService {
             standardLogTime = standardLogTime.plusMinutes(10);
 
             //평균 구하기
-            sum += (double) log.get("value");
+            try {
+                sum += (double) log.get("value");
+            } catch (ClassCastException | NullPointerException exception){}
         }
         avg.put("s_id", allAirDataList.get(0).get("s_id"));
         avg.put("avg", sum / allAirDataList.size());
