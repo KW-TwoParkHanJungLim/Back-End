@@ -54,7 +54,7 @@ public class MainService {
             //공기질 데이터 추출
             AirDataDto airDataDto = extractAirData(airDataModel);
 
-            String sensorName;
+            String sensorName = null;
             try {
                 //센서이름을 찾음
                 sensorName = findSensorName(airDataModel.getS_id());

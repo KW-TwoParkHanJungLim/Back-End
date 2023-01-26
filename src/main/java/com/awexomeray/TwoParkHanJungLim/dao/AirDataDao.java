@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -19,17 +22,24 @@ public class AirDataDao {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    //제일 최근에 기록된 데이터를 찾음
     public AirDataEntity findLatestRecordAirData(String collectionName) {
         return mongoTemplate.findOne(
-                new Query().with(Sort.by(Sort.Direction.DESC, "logtime")).limit(1),
+                new Query().with(Sort.by(Sort.Direction.DESC, "_id")).limit(1),
                 AirDataEntity.class,
                 collectionName
         );
     }
 
     public List<AirDataEntity> findByLogtime(String collectionName, String latestRecordDateTime) {
+        LocalDateTime localDateTime = LocalDateTime.parse(latestRecordDateTime, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDate localDate = LocalDate.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth());
+
+        Query query = new Query(new Criteria("day").is(localDate.toString()));
+        query.addCriteria(new Criteria("logtime").is(latestRecordDateTime));
+
         return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").is(latestRecordDateTime)),
+                query,
                 AirDataEntity.class,
                 collectionName
         );
