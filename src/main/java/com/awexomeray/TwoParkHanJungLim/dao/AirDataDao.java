@@ -47,7 +47,7 @@ public class AirDataDao {
 
     public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId) {
         Query query = new Query(new Criteria("s_id").is(sensorId));
-        query.addCriteria(new Criteria("day").regex(requestGraphDataDto.getLogTime()));
+        query.addCriteria(new Criteria("day").is(requestGraphDataDto.getLogTime()));
         query.fields()
                 .include("s_id")
                 .include("logtime")
@@ -69,7 +69,7 @@ public class AirDataDao {
 
     public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate, String endDate, String id) {
         return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").gte(beginDate).lt(endDate).and("s_id").is(id)),
+                Query.query(Criteria.where("day").gte(beginDate).lt(endDate).and("s_id").is(id)),
                 AirDataEntity.class,
                 collectionName);
     }

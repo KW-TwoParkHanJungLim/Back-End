@@ -17,7 +17,7 @@ public class AdminService {
         List<UserEntity> users = userDao.getUsers();
         List<String> usersId = new ArrayList<>();
         for (UserEntity user : users) {
-            usersId.add(user.getId());
+            if(!user.getStatus().equals("admin")) usersId.add(user.getId());
         }
 
         return usersId;
