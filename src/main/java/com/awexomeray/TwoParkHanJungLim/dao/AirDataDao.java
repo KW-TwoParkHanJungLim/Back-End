@@ -37,7 +37,7 @@ public class AirDataDao {
 
     public List<Map> findSensorData(RequestGraphDataDto requestGraphDataDto, String sensorId) {
         Query query = new Query(new Criteria("s_id").is(sensorId));
-        query.addCriteria(new Criteria("logtime").regex(requestGraphDataDto.getLogTime()));
+        query.addCriteria(new Criteria("day").is(requestGraphDataDto.getLogTime()));
         query.fields()
                 .include("s_id")
                 .include("logtime")
