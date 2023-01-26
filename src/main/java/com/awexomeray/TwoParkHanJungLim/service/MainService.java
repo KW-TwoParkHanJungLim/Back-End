@@ -12,9 +12,6 @@ import com.awexomeray.TwoParkHanJungLim.entity.SensorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +59,7 @@ public class MainService {
                 //센서이름을 찾음
                 sensorName = findSensorName(airDataModel.getS_id());
             } catch (NullPointerException e) {//센서이름이 존재하지 않는경우 예외처리
+                throw new ApiCustomException(ErrorCodes.NO_SEARCH_SENSOR_ID);
             }
 
             //센서정보 종합(센서이름 + 공기질데이터)
