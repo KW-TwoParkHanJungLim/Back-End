@@ -59,7 +59,7 @@ public class AirDataDao {
 
     public List<AirDataEntity> findAirDataByDate(String collectionName, String beginDate, String endDate, String id) {
         return mongoTemplate.find(
-                Query.query(Criteria.where("logtime").gte(beginDate).lt(endDate).and("s_id").is(id)),
+                Query.query(Criteria.where("day").gte(beginDate).lt(endDate).and("s_id").is(id)),
                 AirDataEntity.class,
                 collectionName);
     }

@@ -93,6 +93,6 @@ public class AirDetailsService {
 
     private String getDate(LocalDate date, int addDay) {
         LocalDate modDate = date.plusDays(addDay);
-        return modDate + "T00:00:00.000Z";
+        return modDate.toString();
     }
 }
