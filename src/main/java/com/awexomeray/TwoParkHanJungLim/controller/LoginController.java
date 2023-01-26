@@ -24,7 +24,6 @@ public class LoginController {
 
     //로그인
     @PostMapping("/login")
-
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         UserEntity user;
 
